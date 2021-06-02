@@ -82,7 +82,7 @@ def get_named_object(target_name, tstamp, pressure=0.0, temperature=0.0, relativ
         target_altaz = target.transform_to(aaframe)
         return  target_altaz
 
-    if target_name_lower in ('moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'):
+    if target_name_lower in ('mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'):
         target = get_body(target_name_lower, tstamp, obsloc)
         target_altaz = target.transform_to(aaframe)
         return  target_altaz
