@@ -7,6 +7,17 @@ The function "observatory_location" should be edited with the longitude, latitud
 
 NOTE: These functions initiate internet queries, for example to obtain the moon or minor planet locations requires a data download.
 
-All functions provided here call upon the astropy/astroquery packages.
+All functions provided here use Python3 and call upon the astropy and astroquery packages.
 
-This code is public domain. Feel free to use it as is, or copy and paste what you need.
+The code in this file is public domain. Feel free to use it as is, or copy and paste what you need. The file is very short, since all the actual work is done by astropy/astroquery, please look at the source which is well commented.
+
+
+Note: astropy uses earth orientation data provided by IERS, it may be useful to have a cron job that downloads this weekly to ensure you have a cached up-to date copy. To do this, if you have astroplan installed, you can use a short python file containing the lines.
+
+
+from astroplan import download_IERS_A
+
+download_IERS_A()
+
+
+
