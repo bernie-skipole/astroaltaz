@@ -11,6 +11,10 @@ All functions provided here use Python3 and call upon the astropy and astroquery
 
 The code in this file is public domain. Feel free to use it as is, or copy and paste what you need. The file is very short, since all the actual work is done by astropy/astroquery, please look at the source which is well commented.
 
+Further documentation can be found at:
+
+https://astroaltaz.readthedocs.io/en/latest/
+
 
 Note: astropy uses earth orientation data provided by IERS, it may be useful to have a cron job that downloads this weekly to ensure you have a cached up-to date copy. To do this, if you have astroplan installed, you can use a short python file containing the lines.
 
