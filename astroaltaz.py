@@ -14,7 +14,15 @@
 
    All functions provided here call upon the astropy/astroquery packages.
 
-   This code is public domain. Feel free to use it as is, or copy and paste what you need
+   This code is public domain. Feel free to use it as is, or copy and paste what you need.
+
+   Note: astropy uses earth orientation data provided by IERS, it may be useful to have a
+   cron job that downloads this weekly to ensure you have a cached up-to date copy. To do this,
+   if you have astroplan installed, you can use a short python file containing the lines.
+
+   from astroplan import download_IERS_A
+
+   download_IERS_A()
 """
 
 
@@ -28,14 +36,16 @@ from astroquery.exceptions import InvalidQueryError
 
 
 def observatory_location():
-    "Returns the observatory location as an astropy EarthLocation object"
+    """Returns the observatory location as an astropy EarthLocation object
+
+    :return: An EarthLocation object
+    :rtype: astropy.coordinates.EarthLocation
+    """
     # These values should be edited to match the observatory location 
     longitude = -2.1544
     latitude = 53.7111
     elevation = 316
     return EarthLocation.from_geodetic(longitude, latitude, elevation)
-
-
 
 # the pressure, temperature, relative_humidity and obswl arguments in the
 # following functions are used to calculate the effect of refraction.
@@ -53,8 +63,24 @@ def observatory_location():
 
 def get_named_object(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Returns an Astropy SkyCoord object or None if the object cannot be found.
-       target_name is a string such as "Mars"
-       tstamp is a python datetime or Astropy Time object"""
+    target_name is a string such as "Mars"
+    tstamp is a python datetime or Astropy Time object
+
+    :param target_name: Name of the target
+    :type target_name: String
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: A SkyCoord object
+    :rtype: astropy.coordinates.SkyCoord
+    """
 
     if not target_name:
         return
@@ -111,8 +137,26 @@ def get_named_object(target_name, tstamp, pressure=0.0, temperature=0.0, relativ
 
 def get_unnamed_object(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Give ra and dec in degrees, return the Astropy SkyCoord object
-       target_ra, target_dec are floating point RA, DEC values as decimal degrees 
-       tstamp is a datetime or Time object"""
+    target_ra, target_dec are floating point RA, DEC values as decimal degrees 
+    tstamp is a datetime or Time object
+
+    :param target_ra: Right Ascension in decimal degrees
+    :type target_ra: Float
+    :param target_dec: Declination in decimal degrees
+    :type target_dec: Float
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: A SkyCoord object
+    :rtype: astropy.coordinates.SkyCoord
+    """
 
     if (target_ra is None) or (target_dec is None):
         return
@@ -133,8 +177,25 @@ def get_unnamed_object(target_ra, target_dec, tstamp, pressure=0.0, temperature=
 
 def get_named_alt_az(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Return alt, az, as decimal degrees, given a target name
-       and time stamp (python utc datetime or astropy Time object) 
-       If nothing found, returns None"""
+    and time stamp (python utc datetime or astropy Time object) 
+    If nothing found, returns None
+
+    :param target_name: Name of the target
+    :type target_name: String
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: Altitude, Azimuth, as decimal degrees
+    :rtype: Tuple of two Floats
+    """
+
     target_altaz = get_named_object(target_name, tstamp, pressure, temperature, relative_humidity, obswl)
     if target_altaz is None:
         return
@@ -143,7 +204,25 @@ def get_named_alt_az(target_name, tstamp, pressure=0.0, temperature=0.0, relativ
 
 def get_unnamed_alt_az(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Return alt, az, as decimal degrees, given J2000 coordinates target_ra, target_dec which should be
-       decimal degrees and time stamp which can be either a python utc datetime or astropy Time object."""
+    decimal degrees and time stamp which can be either a python utc datetime or astropy Time object.
+
+    :param target_ra: Right Ascension in decimal degrees
+    :type target_ra: Float
+    :param target_dec: Declination in decimal degrees
+    :type target_dec: Float
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: Altitude, Azimuth, as decimal degrees
+    :rtype: Tuple of two Floats
+    """
     target_altaz = get_unnamed_object(target_ra, target_dec, tstamp, pressure, temperature, relative_humidity, obswl)
     if target_altaz is None:
         return
@@ -152,9 +231,26 @@ def get_unnamed_alt_az(target_ra, target_dec, tstamp, pressure=0.0, temperature=
 
 def get_named_alt_az_rates(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Return alt, az, alt_rate, az_rate, given a target name
-       and time stamp which can be a python utc datetime or astropy Time object
-       alt,az returned will be decimal degrees, the rates returned are degrees per second
-       If nothing found, returns None"""
+    and time stamp which can be a python utc datetime or astropy Time object
+    alt,az returned will be decimal degrees, the rates returned are degrees per second
+    If nothing found, returns None
+
+    :param target_name: Name of the target
+    :type target_name: String
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: Alt, Az, Alt deg per sec, Az deg per sec
+    :rtype: Tuple of four Floats
+    """
+
     if not isinstance(tstamp, Time):
         tstamp = Time(tstamp, format='datetime', scale='utc')
     td = TimeDelta(10, format='sec')
@@ -181,8 +277,26 @@ def get_named_alt_az_rates(target_name, tstamp, pressure=0.0, temperature=0.0, r
 
 def get_unnamed_alt_az_rates(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
     """Return alt, az, alt_rate, az_rate, given J2000 coordinates target_ra and target_dec which should be provided as
-       floats of decimal degrees, and time stamp (python utc datetime or astropy Time object)
-       alt,az returned will be decimal degrees, the rates returned are degrees per second"""
+    floats of decimal degrees, and time stamp (python utc datetime or astropy Time object)
+    alt,az returned will be decimal degrees, the rates returned are degrees per second
+
+    :param target_ra: Right Ascension in decimal degrees
+    :type target_ra: Float
+    :param target_dec: Declination in decimal degrees
+    :type target_dec: Float
+    :param tstamp: UTC time of the observation
+    :type tstamp: datetime.datetime
+    :param pressure: Pressure in hPa
+    :type pressure: Float
+    :param temperature: Temperature is degrees centigrade
+    :type temperature: Float
+    :param relative_humidity: between 0 to 1
+    :type relative_humidity: Float
+    :param obswl: wavelength of observations, in micrometers
+    :type obswl: Float
+    :return: Alt, Az, Alt deg per sec, Az deg per sec
+    :rtype: Tuple of four Floats
+    """
     if not isinstance(tstamp, Time):
         tstamp = Time(tstamp, format='datetime', scale='utc')
     td = TimeDelta(10, format='sec')
