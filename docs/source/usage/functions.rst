@@ -15,7 +15,7 @@ In the following functions the pressure, temperature, relative_humidity and obsw
 
 If these arguments are not given, the defaults will ensure no refraction calculation is done
 
-Pressure is in hPa (equivalent to mbar)
+Pressure is in hPa (equivalent to mbar), if zero, no refraction calculation is made
 
 Temperature is degrees centigrade
 
@@ -23,7 +23,7 @@ Relative humidity is a dimensionless quantity between 0 to 1
 
 obswl is the average wavelength of observations, in micrometers, (1×10−6 metre)
 
-For further information, please see the astropy documentation, and in particular note:
+From the astropy documentation:
 
 "The refraction model is based on that implemented in ERFA, which is fast but becomes inaccurate for altitudes below about 5 degrees."
 
