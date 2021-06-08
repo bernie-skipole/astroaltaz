@@ -11,6 +11,8 @@ astroaltaz - obtain Altitude and Azimuth
    usage/license.rst
 
 
+`The code can be found at <https://github.com/bernie-skipole/astroaltaz>`_
+
 
 Indices and tables
 ==================
