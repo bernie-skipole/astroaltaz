@@ -62,8 +62,10 @@ def observatory_location():
 
 
 def get_named_object(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Returns an Astropy SkyCoord object or None if the object cannot be found.
+    """Returns an Astropy SkyCoord object (altaz frame) or None if the object cannot be found.
+
     target_name is a string such as "Mars"
+
     tstamp is a python datetime or Astropy Time object
 
     :return: A SkyCoord object
@@ -124,9 +126,11 @@ def get_named_object(target_name, tstamp, pressure=0.0, temperature=0.0, relativ
 
 
 def get_unnamed_object(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Give ra and dec in degrees, return the Astropy SkyCoord object
-    target_ra, target_dec are floating point RA, DEC values as decimal degrees 
-    tstamp is a datetime or Time object
+    """Returns an Astropy SkyCoord object (altaz frame), given J2000 coordinates target_ra, target_dec.
+
+    target_ra, target_dec are floating point RA, DEC values as decimal degrees
+
+    tstamp is a python datetime or Astropy Time object
 
     :return: A SkyCoord object
     :rtype: astropy.coordinates.SkyCoord
@@ -150,9 +154,11 @@ def get_unnamed_object(target_ra, target_dec, tstamp, pressure=0.0, temperature=
 
 
 def get_named_alt_az(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Return alt, az, as decimal degrees, given a target name
-    and time stamp (python utc datetime or astropy Time object) 
-    If nothing found, returns None
+    """Returns alt, az, as floats (decimal degrees), given a target name. Returns None if name not found.
+
+    target_name is a string such as "Mars"
+
+    tstamp is a python datetime or Astropy Time object
 
     :return: Altitude, Azimuth, as decimal degrees
     :rtype: Tuple of two Floats
@@ -165,8 +171,11 @@ def get_named_alt_az(target_name, tstamp, pressure=0.0, temperature=0.0, relativ
 
 
 def get_unnamed_alt_az(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Return alt, az, as decimal degrees, given J2000 coordinates target_ra, target_dec which should be
-    decimal degrees and time stamp which can be either a python utc datetime or astropy Time object.
+    """Returns alt, az, as floats (decimal degrees), given J2000 coordinates target_ra, target_dec.
+
+    target_ra, target_dec are floating point RA, DEC values as decimal degrees
+
+    tstamp is a python datetime or Astropy Time object
 
     :return: Altitude, Azimuth, as decimal degrees
     :rtype: Tuple of two Floats
@@ -178,10 +187,11 @@ def get_unnamed_alt_az(target_ra, target_dec, tstamp, pressure=0.0, temperature=
 
 
 def get_named_alt_az_rates(target_name, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Return alt, az, alt_rate, az_rate, given a target name
-    and time stamp which can be a python utc datetime or astropy Time object
-    alt,az returned will be decimal degrees, the rates returned are degrees per second
-    If nothing found, returns None
+    """Returns alt, az, alt_rate, az_rate, given a target name. Returns None if name not found.
+
+    target_name is a string such as "Mars"
+
+    tstamp is a python datetime or Astropy Time object
 
     :return: Alt, Az, Alt deg per sec, Az deg per sec
     :rtype: Tuple of four Floats
@@ -212,9 +222,11 @@ def get_named_alt_az_rates(target_name, tstamp, pressure=0.0, temperature=0.0, r
 
 
 def get_unnamed_alt_az_rates(target_ra, target_dec, tstamp, pressure=0.0, temperature=0.0, relative_humidity=0.0, obswl=1):
-    """Return alt, az, alt_rate, az_rate, given J2000 coordinates target_ra and target_dec which should be provided as
-    floats of decimal degrees, and time stamp (python utc datetime or astropy Time object)
-    alt,az returned will be decimal degrees, the rates returned are degrees per second
+    """Returns alt, az, alt_rate, az_rate, given J2000 coordinates target_ra and target_dec.
+
+    target_ra, target_dec are floating point RA, DEC values as decimal degrees
+
+    tstamp is a python datetime or Astropy Time object
 
     :return: Alt, Az, Alt deg per sec, Az deg per sec
     :rtype: Tuple of four Floats
